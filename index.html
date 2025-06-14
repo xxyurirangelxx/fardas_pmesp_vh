@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Interativa - Pacote de Fardamentos PMESP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Neutral Professional -->
+    <!-- Application Structure Plan: A single-page dashboard designed to transform the static proposal into an interactive experience. The structure includes: a summary header with key metrics (price, delivery); an interactive section with clickable unit buttons that update a central details card; a data visualization section with a chart for cost comparison and a visual timeline; and clear sections for terms. This was chosen to make the proposal more engaging, professional, and easier for the client (Vitor Hugo) to digest and explore the value proposition compared to a static text document. -->
+    <!-- Visualization & Content Choices: 
+        - Unit List -> Goal: Organize/Explore -> Method: Interactive Card System with sidebar navigation -> Interaction: Click buttons to dynamically update main content display -> Justification: More engaging and focused than a long static table. Library: Vanilla JS.
+        - Pricing -> Goal: Compare/Highlight Value -> Method: Horizontal Bar Chart -> Interaction: Static chart visualizing the discount -> Justification: Visually emphasizes the savings more effectively than text. Library: Chart.js.
+        - Complexity -> Goal: Inform -> Method: Color-coded text badges -> Interaction: Displayed upon unit selection -> Justification: Provides a quick visual cue of the work involved per unit. Library: Tailwind CSS.
+        - Timeline -> Goal: Inform -> Method: HTML/CSS linear diagram -> Interaction: Static visual -> Justification: Clearly and simply represents the project duration. Library: Tailwind CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Proposta de Fardamentos PMESP</h1>
+            <p class="text-md text-gray-600 mt-2">Orçamento interativo preparado para: <span class="font-semibold text-blue-600">Vitor Hugo</span></p>
+        </header>
+
+        <main>
+            <section id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500">Valor Final</h3>
+                    <p class="text-3xl font-bold text-green-600 mt-2">R$ 120,00</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500">Unidades Inclusas</h3>
+                    <p class="text-3xl font-bold text-blue-600 mt-2">8 Pacotes</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500">Prazo de Entrega</h3>
+                    <p class="text-3xl font-bold text-blue-600 mt-2">15-20 dias</p>
+                </div>
+            </section>
+
+            <section id="package-details" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg mb-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Explore o Pacote de Fardamentos</h2>
+                    <p class="text-gray-600 mt-2">Clique em uma unidade para ver os detalhes, itens inclusos e a complexidade do desenvolvimento.</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <nav id="unit-nav" class="flex-shrink-0 md:w-1/4 flex flex-row md:flex-col flex-wrap justify-center md:justify-start gap-2">
+                    </nav>
+
+                    <div id="unit-display" class="flex-grow bg-gray-50 p-6 rounded-lg border border-gray-200 min-h-[250px]">
+                        <div id="unit-content" class="text-center md:text-left">
+                            <h3 id="unit-title" class="text-xl font-bold text-gray-900 mb-2">Selecione uma Unidade</h3>
+                            <p id="unit-description" class="text-gray-700">Os detalhes da unidade selecionada aparecerão aqui.</p>
+                            <div id="unit-complexity" class="mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="cost-timeline" class="mb-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                        <div class="text-center mb-4">
+                            <h2 class="text-2xl font-bold text-gray-900">Análise de Custos</h2>
+                            <p class="text-gray-600 mt-2">Visualização do valor original e do desconto exclusivo aplicado ao pacote completo.</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="costChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Linha do Tempo do Projeto</h2>
+                             <p class="text-gray-600 mt-2">Estimativa do prazo de desenvolvimento e entrega do projeto.</p>
+                        </div>
+                        <div class="relative pt-8">
+                            <div class="absolute left-0 top-1/2 w-full h-1 bg-gray-300 transform -translate-y-1/2"></div>
+                            <div class="absolute left-0 top-1/2 w-full h-1 bg-blue-500 transform -translate-y-1/2"></div>
+                            <div class="relative flex justify-between items-center text-center">
+                                <div class="w-1/3">
+                                    <div class="mx-auto w-6 h-6 rounded-full bg-blue-600 border-4 border-white flex items-center justify-center text-white font-bold">✓</div>
+                                    <p class="mt-2 text-sm font-semibold">Início</p>
+                                    <p class="text-xs text-gray-500">Dia 1</p>
+                                </div>
+                                <div class="w-1/3">
+                                    <div class="mx-auto w-6 h-6 rounded-full bg-blue-600 border-4 border-white flex items-center justify-center text-white font-bold">...</div>
+                                    <p class="mt-2 text-sm font-semibold">Desenvolvimento</p>
+                                    <p class="text-xs text-gray-500">Revisões</p>
+                                </div>
+                                <div class="w-1/3">
+                                    <div class="mx-auto w-6 h-6 rounded-full bg-blue-600 border-4 border-white flex items-center justify-center text-white font-bold">🏁</div>
+                                    <p class="mt-2 text-sm font-semibold">Entrega Final</p>
+                                    <p class="text-xs text-gray-500">Dia 15-20</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="terms" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg mb-12">
+                 <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Termos e Condições</h2>
+                    <p class="text-gray-600 mt-2">Detalhes sobre pagamento, revisões e entrega do projeto.</p>
+                </div>
+                <dl class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <dt class="font-semibold text-gray-900">Pagamento</dt>
+                        <dd class="text-gray-600 mt-1">50% (R$60) de sinal, 50% (R$60) na entrega.</dd>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <dt class="font-semibold text-gray-900">Revisões</dt>
+                        <dd class="text-gray-600 mt-1">Até 2 rodadas de ajustes por unidade.</dd>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <dt class="font-semibold text-gray-900">Entrega</dt>
+                        <dd class="text-gray-600 mt-1">Arquivos em formato 'stream' prontos para uso.</dd>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <dt class="font-semibold text-gray-900">Licença</dt>
+                        <dd class="text-gray-600 mt-1">Uso exclusivo, sem direito a revenda.</dd>
+                    </div>
+                </dl>
+            </section>
+            
+            <footer class="text-center mt-4">
+                <p class="text-sm text-gray-600">Para dúvidas ou aceite da proposta, favor entrar em contato diretamente.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const unitData = {
+                'ROTA': {
+                    title: 'ROTA',
+                    description: 'Uniforme cinza bandeirante, boina preta, equipamento tático característico.',
+                    complexity: 'Muito Alta',
+                    complexityClass: 'text-red-600 bg-red-100'
+                },
+                'BAEP': {
+                    title: 'BAEP',
+                    description: 'Farda tática, colete modular completo, patches e insígnias do batalhão.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'Força Tática': {
+                    title: 'Força Tática',
+                    description: 'Farda tática preta, colete modular, patches e identificações da unidade.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'Choque': {
+                    title: '2º e 3º Batalhão de Choque',
+                    description: 'Uniforme de controle de distúrbios, capacete, colete tático, insígnias específicas.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'BPRv e TOR': {
+                    title: 'BPRv e TOR',
+                    description: 'Farda cáqui do BPRv, quepe, colete refletivo e variação tática do TOR com equipamento especializado.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'GCM': {
+                    title: 'GCM e Subunidades',
+                    description: 'Uniforme padrão azul-marinho e variações para subunidades como ROMU e Ambiental.',
+                    complexity: 'Média/Alta',
+                    complexityClass: 'text-yellow-600 bg-yellow-100'
+                },
+                'Patrulha': {
+                    title: 'PM Patrulha',
+                    description: 'Farda operacional padrão da Polícia Militar, com boina ou quepe e colete balístico.',
+                    complexity: 'Média',
+                    complexityClass: 'text-green-600 bg-green-100'
+                }
+            };
+
+            const unitNav = document.getElementById('unit-nav');
+            const unitTitle = document.getElementById('unit-title');
+            const unitDescription = document.getElementById('unit-description');
+            const unitComplexity = document.getElementById('unit-complexity');
+            let firstUnitKey = null;
+
+            Object.keys(unitData).forEach((key, index) => {
+                if(index === 0) firstUnitKey = key;
+                const button = document.createElement('button');
+                button.textContent = key;
+                button.dataset.unit = key;
+                button.className = 'unit-btn w-full text-left p-3 rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-200';
+                unitNav.appendChild(button);
+            });
+
+            const unitButtons = document.querySelectorAll('.unit-btn');
+            
+            function updateDisplay(unitKey) {
+                const data = unitData[unitKey];
+                unitTitle.textContent = data.title;
+                unitDescription.textContent = data.description;
+                unitComplexity.innerHTML = `<span class="inline-block px-3 py-1 text-sm font-semibold rounded-full ${data.complexityClass}">Complexidade: ${data.complexity}</span>`;
+                
+                unitButtons.forEach(btn => {
+                    if (btn.dataset.unit === unitKey) {
+                        btn.classList.add('bg-blue-500', 'text-white');
+                        btn.classList.remove('text-gray-700', 'hover:bg-gray-200');
+                    } else {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('text-gray-700', 'hover:bg-gray-200');
+                    }
+                });
+            }
+
+            unitNav.addEventListener('click', (e) => {
+                if (e.target.matches('.unit-btn')) {
+                    const unitKey = e.target.dataset.unit;
+                    updateDisplay(unitKey);
+                }
+            });
+            
+            if(firstUnitKey) {
+                updateDisplay(firstUnitKey);
+            }
+
+            const ctx = document.getElementById('costChart').getContext('2d');
+            const costChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Preço Original', 'Preço com Desconto'],
+                    datasets: [{
+                        label: 'Valor em R$',
+                        data: [165, 120],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.6)',
+                            'rgba(34, 197, 94, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(34, 197, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                             ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + value;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.x);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
