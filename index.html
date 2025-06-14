@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposta Interativa - Pacote de Fardamentos PMESP</title>
+    <title>Proposta Interativa - Pacote de Fardamentos PMESP & PC</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,6 +34,10 @@
                 height: 300px;
             }
         }
+        .unit-btn.active {
+            background-color: #3b82f6; /* bg-blue-500 */
+            color: white;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -41,7 +45,7 @@
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         
         <header class="mb-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Proposta de Fardamentos PMESP</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Proposta de Fardamentos PMESP & PC</h1>
             <p class="text-md text-gray-600 mt-2">Orçamento interativo preparado para: <span class="font-semibold text-blue-600">Vitor Hugo</span></p>
         </header>
 
@@ -49,28 +53,31 @@
             <section id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-500">Valor Final</h3>
-                    <p class="text-3xl font-bold text-green-600 mt-2">R$ 120,00</p>
+                    <p class="text-3xl font-bold text-green-600 mt-2">R$ 150,00</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-500">Unidades Inclusas</h3>
-                    <p class="text-3xl font-bold text-blue-600 mt-2">8 Pacotes</p>
+                    <p class="text-3xl font-bold text-blue-600 mt-2">10 Pacotes</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-500">Prazo de Entrega</h3>
-                    <p class="text-3xl font-bold text-blue-600 mt-2">15-20 dias</p>
+                    <p class="text-3xl font-bold text-blue-600 mt-2">20-25 dias</p>
                 </div>
             </section>
 
             <section id="package-details" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg mb-12">
                 <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900">Explore o Pacote de Fardamentos</h2>
+                    <h2 class="text-2xl font-bold text-gray-900">Explore os Pacotes de Fardamentos</h2>
                     <p class="text-gray-600 mt-2">Clique em uma unidade para ver os detalhes, itens inclusos e a complexidade do desenvolvimento.</p>
                 </div>
                 <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Navigation for units -->
                     <nav id="unit-nav" class="flex-shrink-0 md:w-1/4 flex flex-row md:flex-col flex-wrap justify-center md:justify-start gap-2">
+                        <!-- Buttons will be injected by JavaScript -->
                     </nav>
 
-                    <div id="unit-display" class="flex-grow bg-gray-50 p-6 rounded-lg border border-gray-200 min-h-[250px]">
+                    <!-- Display area for selected unit -->
+                    <div id="unit-display" class="flex-grow bg-gray-50 p-6 rounded-lg border border-gray-200 min-h-[250px] flex items-center justify-center md:justify-start">
                         <div id="unit-content" class="text-center md:text-left">
                             <h3 id="unit-title" class="text-xl font-bold text-gray-900 mb-2">Selecione uma Unidade</h3>
                             <p id="unit-description" class="text-gray-700">Os detalhes da unidade selecionada aparecerão aqui.</p>
@@ -98,7 +105,9 @@
                              <p class="text-gray-600 mt-2">Estimativa do prazo de desenvolvimento e entrega do projeto.</p>
                         </div>
                         <div class="relative pt-8">
+                            <!-- Timeline track -->
                             <div class="absolute left-0 top-1/2 w-full h-1 bg-gray-300 transform -translate-y-1/2"></div>
+                            <!-- Timeline progress -->
                             <div class="absolute left-0 top-1/2 w-full h-1 bg-blue-500 transform -translate-y-1/2"></div>
                             <div class="relative flex justify-between items-center text-center">
                                 <div class="w-1/3">
@@ -114,7 +123,7 @@
                                 <div class="w-1/3">
                                     <div class="mx-auto w-6 h-6 rounded-full bg-blue-600 border-4 border-white flex items-center justify-center text-white font-bold">🏁</div>
                                     <p class="mt-2 text-sm font-semibold">Entrega Final</p>
-                                    <p class="text-xs text-gray-500">Dia 15-20</p>
+                                    <p class="text-xs text-gray-500">Dia 20-25</p>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +139,7 @@
                 <dl class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
                     <div class="bg-gray-50 p-4 rounded-lg border">
                         <dt class="font-semibold text-gray-900">Pagamento</dt>
-                        <dd class="text-gray-600 mt-1">50% (R$60) de sinal, 50% (R$60) na entrega.</dd>
+                        <dd class="text-gray-600 mt-1">50% (R$57,50) de início, 50% (R$57,50) na entrega.</dd>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-lg border">
                         <dt class="font-semibold text-gray-900">Revisões</dt>
@@ -156,49 +165,62 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Data for all uniform packages
             const unitData = {
-                'ROTA': {
-                    title: 'ROTA',
-                    description: 'Uniforme cinza bandeirante, boina preta, equipamento tático característico.',
-                    complexity: 'Muito Alta',
-                    complexityClass: 'text-red-600 bg-red-100'
+                 'Alto Escalão PM': {
+                    title: 'Alto Escalão da Polícia Militar',
+                    description: 'Uniformes de gala e de representação para Coronéis e Comandantes. Inclui túnicas brancas e cinzas, barretas de medalhas, insígnias de comando e chapéus de alta patente.',
+                    complexity: 'Especial',
+                    complexityClass: 'text-purple-600 bg-purple-100'
                 },
-                'BAEP': {
-                    title: 'BAEP',
-                    description: 'Farda tática, colete modular completo, patches e insígnias do batalhão.',
-                    complexity: 'Alta',
-                    complexityClass: 'text-orange-600 bg-orange-100'
-                },
-                'Força Tática': {
-                    title: 'Força Tática',
-                    description: 'Farda tática preta, colete modular, patches e identificações da unidade.',
-                    complexity: 'Alta',
-                    complexityClass: 'text-orange-600 bg-orange-100'
-                },
-                'Choque': {
-                    title: '2º e 3º Batalhão de Choque',
-                    description: 'Uniforme de controle de distúrbios, capacete, colete tático, insígnias específicas.',
-                    complexity: 'Alta',
-                    complexityClass: 'text-orange-600 bg-orange-100'
-                },
-                'BPRv e TOR': {
-                    title: 'BPRv e TOR',
-                    description: 'Farda cáqui do BPRv, quepe, colete refletivo e variação tática do TOR com equipamento especializado.',
-                    complexity: 'Alta',
-                    complexityClass: 'text-orange-600 bg-orange-100'
-                },
-                'GCM': {
-                    title: 'GCM e Subunidades',
-                    description: 'Uniforme padrão azul-marinho e variações para subunidades como ROMU e Ambiental.',
+                'Polícia Civil': {
+                    title: 'Polícia Civil e Departamentos',
+                    description: 'Pacote para a Polícia Judiciária, incluindo trajes sociais (ternos) para delegados e investigadores, coletes táticos com o brasão da PC e distintivos para unidades como GOE e GER.',
                     complexity: 'Média/Alta',
                     complexityClass: 'text-yellow-600 bg-yellow-100'
                 },
                 'Patrulha': {
                     title: 'PM Patrulha',
-                    description: 'Farda operacional padrão da Polícia Militar, com boina ou quepe e colete balístico.',
+                    description: 'A farda operacional para o policiamento de área diário, incluindo o colete balístico padrão de sobreposição e a opção de cobertura com boina ou chapéu.',
                     complexity: 'Média',
                     complexityClass: 'text-green-600 bg-green-100'
-                }
+                },
+                'ROTA': {
+                    title: 'ROTA',
+                    description: 'Inclui o icônico uniforme de combate, a boina preta e o clássico braçal com o brasão da ROTA, colete tático modular e os patches de identificação que são símbolo da unidade de elite.',
+                    complexity: 'Muito Alta',
+                    complexityClass: 'text-red-600 bg-red-100'
+                },
+                'BAEP': {
+                    title: 'BAEP',
+                    description: 'Pacote com a farda tática de alta resistência, colete balístico modular (plate carrier) completo, boina, patches de identificação do BAEP e insígnias do batalhão.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'Força Tática': {
+                    title: 'Força Tática',
+                    description: 'Composto pela farda tática, boina com o distintivo da Polícia Militar, colete modular e patches de identificação dessa unidade tática, pronta para qualquer ocasião.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'Choque': {
+                    title: '2º e 3º Batalhão de Choque',
+                    description: 'Equipamento completo para controle de distúrbios, incluindo o uniforme de combate, colete tático modular, capacete com viseira, além de fardas para ocasiões mais especiais.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                'BPRv e TOR': {
+                    title: 'BPRv e TOR',
+                    description: 'Contempla a farda do Policiamento Rodoviário (BPRv) com chapéu e colete refletivo, e a variação tática do TOR, com equipamento especializado para abordagens de alto risco.',
+                    complexity: 'Alta',
+                    complexityClass: 'text-orange-600 bg-orange-100'
+                },
+                 'GCM': {
+                    title: 'GCM e Subunidades',
+                    description: 'Uniforme padrão azul-marinho da Guarda Civil Metropolitana. Inclui variações para subunidades, como a farda tática preta da ROMU e o fardamento tático da IOPE.',
+                    complexity: 'Média/Alta',
+                    complexityClass: 'text-yellow-600 bg-yellow-100'
+                },
             };
 
             const unitNav = document.getElementById('unit-nav');
@@ -207,45 +229,53 @@
             const unitComplexity = document.getElementById('unit-complexity');
             let firstUnitKey = null;
 
+            // Dynamically create navigation buttons from data
             Object.keys(unitData).forEach((key, index) => {
-                if(index === 0) firstUnitKey = key;
+                if (index === 0) firstUnitKey = key;
                 const button = document.createElement('button');
                 button.textContent = key;
                 button.dataset.unit = key;
-                button.className = 'unit-btn w-full text-left p-3 rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-200';
+                button.className = 'unit-btn w-full text-left p-3 rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors duration-200';
                 unitNav.appendChild(button);
             });
-
-            const unitButtons = document.querySelectorAll('.unit-btn');
             
+            const unitButtons = document.querySelectorAll('.unit-btn');
+
+            // Function to update the display with selected unit's data
             function updateDisplay(unitKey) {
                 const data = unitData[unitKey];
+                if (!data) return;
+                
                 unitTitle.textContent = data.title;
                 unitDescription.textContent = data.description;
                 unitComplexity.innerHTML = `<span class="inline-block px-3 py-1 text-sm font-semibold rounded-full ${data.complexityClass}">Complexidade: ${data.complexity}</span>`;
                 
+                // Update active button style
                 unitButtons.forEach(btn => {
                     if (btn.dataset.unit === unitKey) {
-                        btn.classList.add('bg-blue-500', 'text-white');
+                        btn.classList.add('active');
                         btn.classList.remove('text-gray-700', 'hover:bg-gray-200');
                     } else {
-                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.remove('active');
                         btn.classList.add('text-gray-700', 'hover:bg-gray-200');
                     }
                 });
             }
 
+            // Event listener for navigation clicks
             unitNav.addEventListener('click', (e) => {
-                if (e.target.matches('.unit-btn')) {
+                if (e.target && e.target.matches('.unit-btn')) {
                     const unitKey = e.target.dataset.unit;
                     updateDisplay(unitKey);
                 }
             });
             
-            if(firstUnitKey) {
+            // Display the first unit by default
+            if (firstUnitKey) {
                 updateDisplay(firstUnitKey);
             }
 
+            // Cost analysis chart
             const ctx = document.getElementById('costChart').getContext('2d');
             const costChart = new Chart(ctx, {
                 type: 'bar',
@@ -253,7 +283,7 @@
                     labels: ['Preço Original', 'Preço com Desconto'],
                     datasets: [{
                         label: 'Valor em R$',
-                        data: [165, 120],
+                        data: [180, 115], // Updated values
                         backgroundColor: [
                             'rgba(239, 68, 68, 0.6)',
                             'rgba(34, 197, 94, 0.6)'
@@ -272,7 +302,7 @@
                     scales: {
                         x: {
                             beginAtZero: true,
-                             ticks: {
+                            ticks: {
                                 callback: function(value) {
                                     return 'R$ ' + value;
                                 }
